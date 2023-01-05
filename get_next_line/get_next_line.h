@@ -6,7 +6,7 @@
 /*   By: spalta <spalta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 12:48:46 by spalta            #+#    #+#             */
-/*   Updated: 2023/01/04 17:58:57 by spalta           ###   ########.fr       */
+/*   Updated: 2023/01/05 20:05:39 by spalta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
 
 char	*ft_archive(int fd, char *archive);
-size_t	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strchr(char *s, char *p, int c);
 int		ft_check(char *pt);
 char	*get_next_line(int fd);
+char	*ft_strdup(const char *s1);
+char	*ft_strchr(const char *s, int c);
 
 # endif
