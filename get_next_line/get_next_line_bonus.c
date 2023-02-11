@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spalta <spalta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 19:56:30 by spalta            #+#    #+#             */
-/*   Updated: 2023/01/10 20:00:33 by spalta           ###   ########.fr       */
+/*   Created: 2023/01/10 19:57:17 by spalta            #+#    #+#             */
+/*   Updated: 2023/01/10 20:00:52 by spalta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_read(int fd, char *str)
 {
@@ -40,14 +40,14 @@ char	*ft_read(int fd, char *str)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*str;
+	static char	*strs[256];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	str = ft_read(fd, str);
-	if (!str)
 		return (NULL);
-	line = ft_get_line(str);
-	str = ft_update_str(str);
+	strs[fd] = ft_read(fd, strs[fd]);
+	if (!strs[fd])
+		return (NULL);
+	line = ft_get_line(strs[fd]);
+	strs[fd] = ft_update_str(strs[fd]);
 	return (line);
 }

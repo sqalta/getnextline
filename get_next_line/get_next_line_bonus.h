@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spalta <spalta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 13:12:39 by spalta            #+#    #+#             */
-/*   Updated: 2023/01/05 20:06:02 by spalta           ###   ########.fr       */
+/*   Created: 2023/01/10 19:57:29 by spalta            #+#    #+#             */
+/*   Updated: 2023/01/10 20:02:03 by spalta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
-int main ()
-{
-	int fd = open ("deneme.txt", O_RDONLY, 0777);
-	
-	printf ("%s",get_next_line(fd));
-	printf ("%s",get_next_line(fd));
+# include <unistd.h>
+# include <stdlib.h>
 
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 25
+# endif
+
+int		ft_n(char *s1);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strlen(char *str);
+char	*ft_get_line(char *str);
+char	*ft_update_str(char *str);
+char	*get_next_line(int fd);
+#endif
