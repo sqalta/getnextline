@@ -5,30 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: spalta <spalta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 19:59:05 by spalta            #+#    #+#             */
-/*   Updated: 2023/01/10 20:00:38 by spalta           ###   ########.fr       */
+/*   Created: 2023/01/09 14:30:56 by spalta            #+#    #+#             */
+/*   Updated: 2023/01/09 16:08:00 by spalta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int	ft_n(char *s1)
+int	ft_strlen_gnl(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (!s1)
-		return (0);
-	while (*(s1 + i))
-	{
-		if (*(s1 + i) == '\n')
-			return (1);
+	while (*(str + i))
 		i++;
-	}
-	return (0);
+	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+int	ft_check(char	*str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (1);
+	while (*(str + i))
+	{
+		if (*(str + i) == '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char	*str;
 	int		i;
@@ -39,13 +49,13 @@ char	*ft_strjoin(char *s1, char *s2)
 		s1 = malloc(1 * sizeof(char));
 		*s1 = '\0';
 	}
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = malloc(sizeof(char) * (ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1));
 	if (!str)
 		return (NULL);
 	i = -1;
-	j = -1;
 	while (*(s1 + ++i))
 		*(str + i) = *(s1 + i);
+	j = -1;
 	while (*(s2 + ++j))
 		*(str + i + j) = *(s2 + j);
 	*(str + i + j) = '\0';
@@ -53,36 +63,26 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*(str + i))
-		i++;
-	return (i);
-}
-
-char	*ft_get_line(char *str)
+char	*ft_line(char *s1)
 {
 	char	*line;
 	int		i;
 
 	i = 0;
-	if (!*(str + i))
+	if (!*s1)
 		return (NULL);
-	while (*(str + i) != '\n' && *(str + i))
+	while (*(s1 + i) && *(s1 + i) != '\n')
 		i++;
-	line = malloc(sizeof(char) * (i + 2));
+	line = malloc(sizeof(char) * i + 2);
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (*(str + i) != '\n' && *(str + i))
+	while (*(s1 + i) && *(s1 + i) != '\n')
 	{
-		*(line + i) = *(str + i);
+		*(line + i) = *(s1 + i);
 		i++;
 	}
-	if (*(str + i) == '\n')
+	if (*(s1 + i) == '\n')
 	{
 		*(line + i) = '\n';
 		i++;
@@ -91,7 +91,7 @@ char	*ft_get_line(char *str)
 	return (line);
 }
 
-char	*ft_update_str(char *str)
+char	*ft_archive(char *s1)
 {
 	int		i;
 	int		j;
@@ -99,20 +99,20 @@ char	*ft_update_str(char *str)
 
 	i = 0;
 	j = 0;
-	while (*(str + i) != '\n' && *(str + i))
+	while (*(s1 + i) != '\n' && *(s1 + i))
 		i++;
-	if (!*(str + i))
+	if (!*(s1 + i))
 	{
-		free(str);
+		free(s1);
 		return (NULL);
 	}
-	new = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	new = malloc(sizeof(char) * (ft_strlen_gnl(s1) - i + 1));
 	if (!new)
 		return (NULL);
 	i++;
-	while (*(str + i))
-		*(new + j++) = *(str + i++);
+	while (*(s1 + i))
+		*(new + j++) = *(s1 + i++);
 	*(new + j) = '\0';
-	free(str);
+	free(s1);
 	return (new);
 }

@@ -5,49 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: spalta <spalta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 19:57:17 by spalta            #+#    #+#             */
-/*   Updated: 2023/01/10 20:00:52 by spalta           ###   ########.fr       */
+/*   Created: 2023/01/09 14:30:28 by spalta            #+#    #+#             */
+/*   Updated: 2023/01/09 16:12:19 by spalta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*ft_read(int fd, char *str)
+char	*get_archive(int fd, char *archive)
 {
-	int		rd;
-	char	*buff;
+	char	*book;
+	int		r_byte;
 
-	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buff)
+	book = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!book)
 		return (NULL);
-	rd = 1;
-	while (!ft_n(str) && rd != 0)
+	r_byte = 1;
+	while (ft_check(archive) && r_byte != 0)
 	{
-		rd = read(fd, buff, BUFFER_SIZE);
-		if (rd == -1)
+		r_byte = read(fd, book, BUFFER_SIZE);
+		if (r_byte == -1)
 		{
-			free(str);
-			free(buff);
+			free(archive);
+			free(book);
 			return (NULL);
 		}
-		*(buff + rd) = '\0';
-		str = ft_strjoin(str, buff);
+		book[r_byte] = '\0';
+		archive = ft_strjoin_gnl(archive, book);
 	}
-	free(buff);
-	return (str);
+	free(book);
+	return (archive);
 }
 
 char	*get_next_line(int fd)
 {
+	static char	*archive[256];
 	char		*line;
-	static char	*strs[256];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	archive[fd] = get_archive(fd, archive[fd]);
+	if (!archive[fd])
 		return (NULL);
-	strs[fd] = ft_read(fd, strs[fd]);
-	if (!strs[fd])
-		return (NULL);
-	line = ft_get_line(strs[fd]);
-	strs[fd] = ft_update_str(strs[fd]);
+	line = ft_line(archive[fd]);
+	archive[fd] = ft_archive(archive[fd]);
 	return (line);
 }

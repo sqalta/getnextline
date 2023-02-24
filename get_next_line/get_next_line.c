@@ -5,49 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: spalta <spalta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 19:56:30 by spalta            #+#    #+#             */
-/*   Updated: 2023/01/10 20:00:33 by spalta           ###   ########.fr       */
+/*   Created: 2023/01/08 15:49:42 by spalta            #+#    #+#             */
+/*   Updated: 2023/01/09 16:13:27 by spalta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_read(int fd, char *str)
+char	*get_archive(int fd, char *archive)
 {
-	int		rd;
-	char	*buff;
+	char	*book;
+	int		r_byte;
 
-	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buff)
+	book = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!book)
 		return (NULL);
-	rd = 1;
-	while (!ft_n(str) && rd != 0)
+	r_byte = 1;
+	while (ft_check(archive) && r_byte != 0)
 	{
-		rd = read(fd, buff, BUFFER_SIZE);
-		if (rd == -1)
+		r_byte = read(fd, book, BUFFER_SIZE);
+		if (r_byte == -1)
 		{
-			free(str);
-			free(buff);
+			free(archive);
+			free(book);
 			return (NULL);
 		}
-		*(buff + rd) = '\0';
-		str = ft_strjoin(str, buff);
+		book[r_byte] = '\0';
+		archive = ft_strjoin_gnl(archive, book);
 	}
-	free(buff);
-	return (str);
+	free(book);
+	return (archive);
 }
 
 char	*get_next_line(int fd)
 {
+	static char	*archive;
 	char		*line;
-	static char	*str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	str = ft_read(fd, str);
-	if (!str)
+	archive = get_archive(fd, archive);
+	if (!archive)
 		return (NULL);
-	line = ft_get_line(str);
-	str = ft_update_str(str);
+	line = ft_line(archive);
+	archive = ft_archive(archive);
 	return (line);
 }
